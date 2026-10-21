@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Attendance Portal - Manage student attendance, assignments, and records with ease.">
+    <title>Attendance Portal | Smart Student Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <div id="loginPage" class="page active">
+        <div class="login-bg">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+            <div class="login-container">
+                <div class="login-card glass-card">
+                    <div class="login-logo">
+                        <div class="logo-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect x="4" y="8" width="40" height="32" rx="4" stroke="url(#grad1)" stroke-width="3"/>
+                                <path d="M14 20L22 28L34 16" stroke="url(#grad1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="grad1" x1="4" y1="8" x2="44" y2="40">
+                                        <stop stop-color="#6C63FF"/>
+                                        <stop offset="1" stop-color="#3B82F6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h1>Attendance Portal</h1>
+                        <p class="login-subtitle">Smart Student Management System</p>
+                    </div>
+                    <div class="login-tabs">
+                        <button class="login-tab active" data-role="admin" id="adminTabBtn">Admin</button>
+                        <button class="login-tab" data-role="student" id="studentTabBtn">Student</button>
+                        <div class="tab-indicator"></div>
+                    </div>
+
+                    <!-- Admin Login -->
+                    <form id="adminLoginForm" class="login-form active">
+                        <div class="input-group">
+                            <label for="adminUsername">Username</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <input type="text" id="adminUsername" placeholder="Enter admin username" value="admin" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="adminPassword">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" id="adminPassword" placeholder="Enter password" value="admin123" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary btn-login" id="adminLoginBtn">
+                            <span>Sign In as Admin</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </form>
+
+                    <!-- Student Login -->
+                    <form id="studentLoginForm" class="login-form">
+                        <div class="input-group">
+                            <label for="studentRoll">Roll Number</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                <input type="text" id="studentRoll" placeholder="Enter your roll number" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="studentPassword">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" id="studentPassword" placeholder="Enter password (roll number)" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary btn-login" id="studentLoginBtn">
+                            <span>Sign In as Student</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </form>
+                    <p class="login-hint">Admin: admin / admin123 &nbsp;|&nbsp; Student: use roll number as both ID & password</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN DASHBOARD ==================== -->
+    <div id="adminDashboard" class="page">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+                        <rect x="4" y="8" width="40" height="32" rx="4" stroke="white" stroke-width="3"/>
+                        <path d="M14 20L22 28L34 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>AttendPro</span>
+                </div>
+                <button class="sidebar-close" id="sidebarCloseBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="adminHome" id="navAdminHome">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-section="addStudent" id="navAddStudent">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    <span>Add Student</span>
+                </button>
+                <button class="nav-item" data-section="takeAttendance" id="navAttendance">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+                    <span>Attendance</span>
+                </button>
+                <button class="nav-item" data-section="sectionReports" id="navSectionReports">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Section Reports</span>
+                </button>
+                <button class="nav-item" data-section="uploadAssignment" id="navAssignment">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+                    <span>Assignment</span>
+                </button>
+                <button class="nav-item" data-section="deleteStudent" id="navDeleteStudent">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                    <span>Delete Student</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="nav-item logout-btn" id="adminLogoutBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <button class="hamburger" id="hamburgerBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 class="page-title" id="pageTitle">Dashboard</h2>
+                <div class="topbar-right">
+                    <div class="user-info">
+                        <div class="user-avatar">A</div>
+                        <span class="user-name">Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Admin Home Section -->
+            <section id="adminHome" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card glass-card" style="--accent: #6C63FF">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalStudents">0</span>
+                            <span class="stat-label">Total Students</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card" style="--accent: #10B981">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="presentToday">0</span>
+                            <span class="stat-label">Present Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card" style="--accent: #F59E0B">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="absentToday">0</span>
+                            <span class="stat-label">Absent Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card" style="--accent: #3B82F6">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalAssignments">0</span>
+                            <span class="stat-label">Assignments</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card glass-card recent-activity">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="navigateTo('addStudent')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                                <span>Add Student</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="navigateTo('takeAttendance')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+                                <span>Take Attendance</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="navigateTo('uploadAssignment')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+                                <span>Upload Assignment</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="navigateTo('deleteStudent')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                <span>Delete Student</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="navigateTo('sectionReports')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                <span>Section Reports</span>
+                            </button>
+                            <button class="quick-action-btn highlight-btn" onclick="quickBulkAddStudents()" title="Add a batch of 10 students with 1 click">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+                                <span>⚡ Bulk Add Students</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card glass-card">
+                        <div class="section-card-title-row">
+                            <div>
+                                <h3>Section-wise Attendance Overview</h3>
+                                <p class="card-subtitle">Real-time breakdown of student attendance across sections</p>
+                            </div>
+                            <button class="btn-small btn-view-report" onclick="navigateTo('sectionReports')">
+                                <span>View Full Report</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                        </div>
+                        <div class="section-overview-grid" id="homeSectionOverview">
+                            <div class="overview-loading">Loading section statistics...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Student Section -->
+            <section id="addStudent" class="content-section">
+                <div class="section-header section-header-flex">
+                    <div>
+                        <h3>Add New Student</h3>
+                        <p>Fill in details to register a student, or add multiple students at a single click</p>
+                    </div>
+                    <div class="section-header-actions">
+                        <button class="btn-primary btn-quick-bulk" onclick="quickBulkAddStudents()" title="Click to instantly generate & add 10 students across sections">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            <span>⚡ 1-Click Bulk Add 10 Students</span>
+                        </button>
+                        <button class="btn-secondary" onclick="openBulkCsvModal()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Bulk CSV / Paste</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-card glass-card">
+                    <form id="addStudentForm">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="studentName">Full Name</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    <input type="text" id="studentName" placeholder="Enter student name" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="studentRollNo">Roll Number</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="10" y1="3" x2="10" y2="9"/></svg>
+                                    <input type="text" id="studentRollNo" placeholder="Enter roll number" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="studentEmail">Email Address</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    <input type="email" id="studentEmail" placeholder="Enter email address" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="studentClass">Class</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                    <select id="studentClass" required>
+                                        <option value="">Select Class</option>
+                                        <option value="BCA 1st Year">BCA 1st Year</option>
+                                        <option value="BCA 2nd Year">BCA 2nd Year</option>
+                                        <option value="BCA 3rd Year">BCA 3rd Year</option>
+                                        <option value="MCA 1st Year">MCA 1st Year</option>
+                                        <option value="MCA 2nd Year">MCA 2nd Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="studentSection">Section</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                                    <select id="studentSection" required>
+                                        <option value="">Select Section</option>
+                                        <option value="A">Section A</option>
+                                        <option value="B">Section B</option>
+                                        <option value="C">Section C</option>
+                                        <option value="D">Section D</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary" id="saveStudentBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                            <span>Save Student</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Take Attendance Section -->
+            <section id="takeAttendance" class="content-section">
+                <div class="section-header">
+                    <h3>Take Attendance</h3>
+                    <p>Select class, section and date to mark attendance</p>
+                </div>
+                <div class="filter-card glass-card">
+                    <div class="filter-grid">
+                        <div class="input-group">
+                            <label for="attendanceClass">Class</label>
+                            <div class="input-wrapper">
+                                <select id="attendanceClass">
+                                    <option value="">Select Class</option>
+                                    <option value="BCA 1st Year">BCA 1st Year</option>
+                                    <option value="BCA 2nd Year">BCA 2nd Year</option>
+                                    <option value="BCA 3rd Year">BCA 3rd Year</option>
+                                    <option value="MCA 1st Year">MCA 1st Year</option>
+                                    <option value="MCA 2nd Year">MCA 2nd Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="attendanceSection">Section</label>
+                            <div class="input-wrapper">
+                                <select id="attendanceSection">
+                                    <option value="">Select Section</option>
+                                    <option value="A">Section A</option>
+                                    <option value="B">Section B</option>
+                                    <option value="C">Section C</option>
+                                    <option value="D">Section D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="attendanceDate">Date</label>
+                            <div class="input-wrapper">
+                                <input type="date" id="attendanceDate">
+                            </div>
+                        </div>
+                        <div class="input-group filter-btn-group">
+                            <label>&nbsp;</label>
+                            <button class="btn-primary" id="loadStudentsBtn" onclick="loadStudentsForAttendance()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <span>Show Students</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="attendanceTableContainer" class="table-container glass-card" style="display:none;">
+                    <div class="table-header">
+                        <h4>Student List</h4>
+                        <div class="table-actions">
+                            <button class="btn-small btn-mark-all-present" onclick="markAllPresent()">Mark All Present</button>
+                            <button class="btn-small btn-mark-all-absent" onclick="markAllAbsent()">Mark All Absent</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="attendanceTable">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn-primary btn-save-attendance" id="saveAttendanceBtn" onclick="saveAttendance()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        <span>Save Attendance</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Section Reports Section -->
+            <section id="sectionReports" class="content-section">
+                <div class="section-header section-header-flex">
+                    <div>
+                        <h3>Section-wise Attendance Report</h3>
+                        <p>View students grouped by section with total present, absent, and attendance percentage</p>
+                    </div>
+                    <div class="section-header-actions">
+                        <button class="btn-secondary btn-export" onclick="exportSectionReportCSV()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Export CSV</span>
+                        </button>
+                        <button class="btn-secondary btn-print" onclick="window.print()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                            <span>Print Report</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section Reports Filter -->
+                <div class="filter-card glass-card">
+                    <div class="filter-grid">
+                        <div class="input-group">
+                            <label for="reportClassFilter">Filter by Class</label>
+                            <div class="input-wrapper">
+                                <select id="reportClassFilter" onchange="renderSectionReports()">
+                                    <option value="">All Classes</option>
+                                    <option value="BCA 1st Year">BCA 1st Year</option>
+                                    <option value="BCA 2nd Year">BCA 2nd Year</option>
+                                    <option value="BCA 3rd Year">BCA 3rd Year</option>
+                                    <option value="MCA 1st Year">MCA 1st Year</option>
+                                    <option value="MCA 2nd Year">MCA 2nd Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="reportSectionFilter">Filter by Section</label>
+                            <div class="input-wrapper">
+                                <select id="reportSectionFilter" onchange="renderSectionReports()">
+                                    <option value="">All Sections (Separated)</option>
+                                    <option value="A">Section A</option>
+                                    <option value="B">Section B</option>
+                                    <option value="C">Section C</option>
+                                    <option value="D">Section D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="reportSearchInput">Search Student</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="reportSearchInput" placeholder="Search by name or roll number" oninput="renderSectionReports()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Summary KPI Cards -->
+                <div class="section-summary-cards" id="sectionSummaryCards">
+                    <!-- Dynamic section performance cards -->
+                </div>
+
+                <!-- Separated Section Groups with Student Tables -->
+                <div id="sectionGroupsContainer" class="section-groups-container">
+                    <!-- Populated dynamically with Section A, Section B tables etc. -->
+                </div>
+            </section>
+
+            <!-- Upload Assignment Section -->
+            <section id="uploadAssignment" class="content-section">
+                <div class="section-header">
+                    <h3>Upload Assignment</h3>
+                    <p>Upload PDF or Image assignments for students</p>
+                </div>
+                <div class="form-card glass-card">
+                    <form id="assignmentForm">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="assignmentTitle">Assignment Title</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="assignmentClass">Class</label>
+                                <div class="input-wrapper">
+                                    <select id="assignmentClass" required>
+                                        <option value="">Select Class</option>
+                                        <option value="BCA 1st Year">BCA 1st Year</option>
+                                        <option value="BCA 2nd Year">BCA 2nd Year</option>
+                                        <option value="BCA 3rd Year">BCA 3rd Year</option>
+                                        <option value="MCA 1st Year">MCA 1st Year</option>
+                                        <option value="MCA 2nd Year">MCA 2nd Year</option>
+                                        <option value="all">All Classes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="assignmentSection">Section</label>
+                                <div class="input-wrapper">
+                                    <select id="assignmentSection" required>
+                                        <option value="">Select Section</option>
+                                        <option value="A">Section A</option>
+                                        <option value="B">Section B</option>
+                                        <option value="C">Section C</option>
+                                        <option value="D">Section D</option>
+                                        <option value="all">All Sections</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group full-width">
+                                <label for="assignmentDesc">Description</label>
+                                <div class="input-wrapper textarea-wrapper">
+                                    <textarea id="assignmentDesc" placeholder="Enter assignment description" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="input-group full-width">
+                                <label>Upload File (PDF / Image)</label>
+                                <div class="file-upload-area" id="fileUploadArea">
+                                    <input type="file" id="assignmentFile" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp" hidden>
+                                    <div class="file-upload-content">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                        <p>Drag & drop or <span class="file-browse">browse</span></p>
+                                        <small>Supports: PDF, JPG, PNG, GIF, WEBP</small>
+                                    </div>
+                                    <div class="file-preview" id="filePreview" style="display:none">
+                                        <span class="file-name" id="fileName"></span>
+                                        <button type="button" class="file-remove" id="fileRemoveBtn">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary" id="uploadAssignmentBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Upload Assignment</span>
+                        </button>
+                    </form>
+                </div>
+                <!-- Uploaded Assignments List -->
+                <div class="section-header" style="margin-top: 2rem;">
+                    <h3>Uploaded Assignments</h3>
+                </div>
+                <div class="table-container glass-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Date</th>
+                                    <th>File</th>
+                                    <th>Submissions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignmentListBody">
+                                <tr><td colspan="8" class="empty-state">No assignments uploaded yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Delete Student Record Section -->
+            <section id="deleteStudent" class="content-section">
+                <div class="section-header">
+                    <h3>Delete Student Record</h3>
+                    <p>Search and remove student records from the system</p>
+                </div>
+                <div class="filter-card glass-card">
+                    <div class="filter-grid">
+                        <div class="input-group">
+                            <label for="filterClass">Filter by Class</label>
+                            <div class="input-wrapper">
+                                <select id="filterClass" onchange="renderAllStudents()">
+                                    <option value="">All Classes</option>
+                                    <option value="BCA 1st Year">BCA 1st Year</option>
+                                    <option value="BCA 2nd Year">BCA 2nd Year</option>
+                                    <option value="BCA 3rd Year">BCA 3rd Year</option>
+                                    <option value="MCA 1st Year">MCA 1st Year</option>
+                                    <option value="MCA 2nd Year">MCA 2nd Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="filterSection">Filter by Section</label>
+                            <div class="input-wrapper">
+                                <select id="filterSection" onchange="renderAllStudents()">
+                                    <option value="">All Sections</option>
+                                    <option value="A">Section A</option>
+                                    <option value="B">Section B</option>
+                                    <option value="C">Section C</option>
+                                    <option value="D">Section D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="searchStudent">Search Student</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="searchStudent" placeholder="Search by name or roll" oninput="renderAllStudents()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container glass-card">
+                    <div class="table-header">
+                        <h4>Student Records</h4>
+                        <span class="student-count-badge" id="studentCountBadge">0 students</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Roll No</th>
+                                    <th>Email</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allStudentsBody">
+                                <tr><td colspan="7" class="empty-state">No students registered yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== STUDENT DASHBOARD ==================== -->
+    <div id="studentDashboard" class="page">
+        <aside class="sidebar student-sidebar" id="studentSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+                        <rect x="4" y="8" width="40" height="32" rx="4" stroke="white" stroke-width="3"/>
+                        <path d="M14 20L22 28L34 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>AttendPro</span>
+                </div>
+                <button class="sidebar-close" id="studentSidebarCloseBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="studentHome" id="navStudentHome">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-section="myAttendance" id="navMyAttendance">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>My Attendance</span>
+                </button>
+                <button class="nav-item" data-section="myAssignments" id="navMyAssignments">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>My Assignments</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="nav-item logout-btn" id="studentLogoutBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="hamburger" id="studentHamburgerBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 class="page-title" id="studentPageTitle">Dashboard</h2>
+                <div class="topbar-right">
+                    <div class="user-info">
+                        <div class="user-avatar student-avatar" id="studentAvatarLetter">S</div>
+                        <span class="user-name" id="studentNameDisplay">Student</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Student Home -->
+            <section id="studentHome" class="content-section active">
+                <div class="welcome-banner glass-card">
+                    <div class="welcome-text">
+                        <h2>Welcome back, <span id="welcomeStudentName">Student</span>! 👋</h2>
+                        <p>Here's your attendance summary</p>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card glass-card" style="--accent: #10B981">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="myTotalPresent">0</span>
+                            <span class="stat-label">Days Present</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card" style="--accent: #EF4444">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="myTotalAbsent">0</span>
+                            <span class="stat-label">Days Absent</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card" style="--accent: #6C63FF">
+                        <div class="stat-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="myAttendancePercent">0%</span>
+                            <span class="stat-label">Attendance %</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card glass-card">
+                    <h3>Today's Status</h3>
+                    <div class="today-status" id="todayStatus">
+                        <div class="status-badge status-unknown">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>Not marked yet</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Attendance Section -->
+            <section id="myAttendance" class="content-section">
+                <div class="section-header">
+                    <h3>My Attendance Record</h3>
+                    <p>View your complete attendance history</p>
+                </div>
+                <div class="attendance-toggle glass-card">
+                    <button class="toggle-btn active" id="todayAttendanceBtn" onclick="showAttendanceView('today')">Today</button>
+                    <button class="toggle-btn" id="allAttendanceBtn" onclick="showAttendanceView('all')">All Records</button>
+                </div>
+                <div class="table-container glass-card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myAttendanceBody">
+                                <tr><td colspan="2" class="empty-state">No attendance records found</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Assignments Section -->
+            <section id="myAssignments" class="content-section">
+                <div class="section-header">
+                    <h3>My Assignments</h3>
+                    <p>View and download your assignments</p>
+                </div>
+                <div id="myAssignmentsList" class="assignments-grid">
+                    <div class="empty-state-card glass-card">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <p>No assignments available</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <svg class="toast-icon toast-success-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <svg class="toast-icon toast-error-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <span id="toastMessage"></span>
+        </div>
+    </div>
+
+    <!-- ==================== CONFIRM MODAL ==================== -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal glass-card">
+            <h3 id="confirmTitle">Confirm</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="confirmCancelBtn">Cancel</button>
+                <button class="btn-danger" id="confirmOkBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STUDENT ATTENDANCE HISTORY MODAL ==================== -->
+    <div id="studentHistoryModal" class="modal-overlay">
+        <div class="modal glass-card modal-large">
+            <div class="modal-header">
+                <div>
+                    <h3 id="historyModalStudentName">Student Attendance History</h3>
+                    <p id="historyModalSubtitle">Roll No: -- &bull; Section: --</p>
+                </div>
+                <button class="modal-close-btn" id="historyModalCloseBtn" onclick="closeStudentHistoryModal()">&times;</button>
+            </div>
+            <div class="history-stats-row">
+                <div class="mini-stat-badge present">Present: <strong id="histPresCount">0</strong></div>
+                <div class="mini-stat-badge absent">Absent: <strong id="histAbsCount">0</strong></div>
+                <div class="mini-stat-badge rate">Rate: <strong id="histRate">0%</strong></div>
+            </div>
+            <div class="table-responsive modal-table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentHistoryTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-actions" style="margin-top: 1.25rem;">
+                <button class="btn-secondary" onclick="closeStudentHistoryModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BULK IMPORT STUDENTS MODAL ==================== -->
+    <div id="bulkCsvModal" class="modal-overlay">
+        <div class="modal glass-card modal-large">
+            <div class="modal-header">
+                <div>
+                    <h3>Bulk Add Students</h3>
+                    <p>Import multiple students via CSV format or paste directly</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeBulkCsvModal()">&times;</button>
+            </div>
+            <div class="bulk-modal-body">
+                <div class="bulk-quick-banner">
+                    <div>
+                        <strong>⚡ Need an instant demo batch?</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Add 10 students across Sections A, B, C with a single click.</p>
+                    </div>
+                    <button class="btn-primary btn-small" onclick="quickBulkAddStudents(); closeBulkCsvModal();">
+                        <span>⚡ 1-Click Generate</span>
+                    </button>
+                </div>
+
+                <div class="input-group" style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <label for="bulkCsvText" style="margin-bottom: 0;">Paste CSV Data (Name, Roll, Email, Class, Section)</label>
+                        <button type="button" class="btn-text" onclick="downloadSampleCsvTemplate()" style="font-size: 0.78rem;">Download Sample CSV Template</button>
+                    </div>
+                    <textarea id="bulkCsvText" rows="6" placeholder="Aman Verma, 105, aman@college.edu, BCA 1st Year, A&#10;Ritu Sharma, 106, ritu@college.edu, BCA 1st Year, A&#10;Kunal Singh, 205, kunal@college.edu, BCA 1st Year, B" style="width: 100%; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); padding: 0.75rem; font-family: monospace; font-size: 0.85rem; resize: vertical;"></textarea>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                    <label>Or Upload .CSV File</label>
+                    <input type="file" id="bulkCsvFileInput" accept=".csv,.txt" style="font-size: 0.85rem; color: var(--text-secondary); width: 100%; padding: 0.5rem; background: rgba(255,255,255,0.03); border: 1px dashed var(--border); border-radius: 8px;">
+                </div>
+            </div>
+            <div class="modal-actions" style="margin-top: 1.5rem;">
+                <button class="btn-secondary" onclick="closeBulkCsvModal()">Cancel</button>
+                <button class="btn-primary" onclick="processBulkCsvImport()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Import All Students</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ASSIGNMENT SUBMISSIONS MODAL (Admin) ==================== -->
+    <div id="assignmentSubmissionsModal" class="modal-overlay">
+        <div class="modal glass-card modal-large" style="max-width: 850px;">
+            <div class="modal-header">
+                <div>
+                    <h3 id="subModalTitle">Assignment Submissions Status</h3>
+                    <p id="subModalDetails">Class: -- &bull; Section: --</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeSubmissionsModal()">&times;</button>
+            </div>
+
+            <!-- Stats & Filter Bar -->
+            <div class="history-stats-row">
+                <div class="mini-stat-badge students">Total Students: <strong id="subTotalCount">0</strong></div>
+                <div class="mini-stat-badge present">Submitted: <strong id="subDoneCount">0</strong></div>
+                <div class="mini-stat-badge absent">Pending: <strong id="subPendingCount">0</strong></div>
+                <div class="mini-stat-badge rate">Submission Rate: <strong id="subRate">0%</strong></div>
+            </div>
+
+            <div class="submissions-filter-bar">
+                <div class="sub-toggle-tabs">
+                    <button class="sub-tab-btn active" data-filter="all" onclick="filterSubmissionsView('all')">All (<span id="tabCountAll">0</span>)</button>
+                    <button class="sub-tab-btn" data-filter="submitted" onclick="filterSubmissionsView('submitted')">Submitted (<span id="tabCountSubmitted">0</span>)</button>
+                    <button class="sub-tab-btn" data-filter="pending" onclick="filterSubmissionsView('pending')">Pending (<span id="tabCountPending">0</span>)</button>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex: 1; justify-content: flex-end; flex-wrap: wrap;">
+                    <input type="text" id="subSearchInput" placeholder="Search student name or roll..." oninput="renderSubmissionsTable()" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); padding: 0.4rem 0.8rem; font-size: 0.8rem; min-width: 180px;">
+                    <button class="btn-secondary btn-small" onclick="exportSubmissionsCSV()" title="Export submissions list to CSV">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Export CSV</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive modal-table-scroll" style="max-height: 380px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Roll No</th>
+                            <th>Student Name</th>
+                            <th>Class & Sec</th>
+                            <th>Submission Status</th>
+                            <th>Submitted Date</th>
+                            <th>Submitted File</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissionsTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 1.25rem;">
+                <button class="btn-secondary" onclick="closeSubmissionsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STUDENT SUBMIT ASSIGNMENT MODAL (Student) ==================== -->
+    <div id="submitAssignmentModal" class="modal-overlay">
+        <div class="modal glass-card modal-large">
+            <div class="modal-header">
+                <div>
+                    <h3 id="studentSubmitModalTitle">Submit Assignment</h3>
+                    <p id="studentSubmitModalSubtitle">Upload your file to complete submission</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeSubmitAssignmentModal()">&times;</button>
+            </div>
+            <form id="studentSubmitForm">
+                <input type="hidden" id="studentSubmitAssignmentId">
+                <div class="input-group full-width">
+                    <label>Upload Assignment Solution (PDF / Word / Image / Zip)</label>
+                    <input type="file" id="studentSubmissionFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" style="width: 100%; padding: 0.6rem; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem;" required>
+                </div>
+                <div class="input-group full-width" style="margin-top: 1rem;">
+                    <label for="studentSubmissionNotes">Notes / Comments (Optional)</label>
+                    <textarea id="studentSubmissionNotes" rows="3" placeholder="Add any comments or notes about your submission..." style="width: 100%; padding: 0.6rem; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; resize: vertical;"></textarea>
+                </div>
+                <div class="modal-actions" style="margin-top: 1.25rem;">
+                    <button type="button" class="btn-secondary" onclick="closeSubmitAssignmentModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" id="btnSubmitWork">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Submit Work</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
